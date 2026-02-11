@@ -1,0 +1,3 @@
+azure_test:
+  module: azure_test
+  class: AzureUploader
