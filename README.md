@@ -146,6 +146,7 @@ To maintain a stable connection between the Raspberry Pi and the battery bank, a
 ### 🐍 Automated Data Lifecycle (Python/AppDaemon)
 The security pipeline uses a custom AppDaemon script to manage two separate storage lifecycles simultaneously:
 
+* **Configuration:** [View azure_test.py](./appdaemon/azure_test.py)
 1.  **Instantaneous Cloud Mirroring:** Every 15-minute recording trigger initiates an immediate upload to **Azure Blob Storage**.
 2.  **7-Day Local Retention:** A daily Python maintenance task scans the Raspberry Pi SSD at 2:00 AM and purges any recordings older than 7 days to maintain disk health. ```
 
