@@ -136,6 +136,13 @@ The interface is built with a focus on high-visibility and intuitive navigation,
 
 ![Dashboard Main View](https://github.com/Abisanarul26/Home-automation-by-Home-Assistant./blob/main/images/theme.png)
 
+### 🔧 ESP32 Bluetooth Proxy Implementation
+To maintain a stable connection between the Raspberry Pi and the battery bank, an ESP32 is deployed as a BLE-to-WiFi bridge.
+
+* **Configuration:** [View jk-bms-proxy.yaml](./esphome/jk-bms-proxy.yaml)
+* **Function:** Tracks 24-32 individual cell voltages, balancing status, and temperatures.
+* **Optimization:** Includes an automation to suspend BLE tracking during OTA updates to prevent flash memory corruption.
+
 ## 🚀 Future Roadmap
 The project continues to evolve with the following planned upgrades:
 * **Mini-Grid Integration:** Full integration of **Solar PV (55kW)** and **Wind Turbine (10kW)** data for Sri Lankan microgrid standards.
