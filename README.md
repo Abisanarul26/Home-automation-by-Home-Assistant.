@@ -121,10 +121,26 @@ Unlike standard automations, the surveillance system uses **AppDaemon** to handl
 * **Connectivity Watchdog:** Monitors the **ESPHome Bluetooth Proxy**; if the connection to the JK BMS is lost, the system sends an urgent notification to prevent battery deep-discharge.
 * **Storage Alerts:** Notifies if the Azure upload fails or if the local SSD health degrades. Notifying or switching devices based on the logic above.
 
-## 📊 Dashboard UI
-The Lovelace dashboard is customized for quick at-a-glance monitoring:
-* **Energy Cards:** Visualizing current draw and daily consumption.
-* **Live Feeds:** Integration of RTSP camera streams for perimeter monitoring.
+## 🎨 5. Dashboard UI & User Experience
+
+The interface is built with a focus on high-visibility and intuitive navigation, utilizing a modern **Glassmorphism** aesthetic to provide a clean, professional "Command Center" feel.
+
+### 🖼️ Design Philosophy
+* **Core Theme:** The visual foundation is built on the [Frosted Glass Theme by wessamlauf](https://github.com/wessamlauf/homeassistant-frosted-glass-themes). This theme brings depth through transparent, blurred card elements and a cohesive color palette.
+* **Editions Used:** I utilize the **Lite Edition** for high-performance navigation on the Raspberry Pi, which maintains the glassy look without the heavy processing load of backdrop filters.
+* **Customization:** Leveraging the **Frosted Glass Theme Manager**, I have customized the primary colors and backgrounds to match a "Frosted Glass Lite" profile, ensuring comfortable usability and visual appeal.
+
+### 🕹️ Multi-Stream Surveillance & Navigation
+* **Subview Architecture:** To maintain a clean primary interface, the dashboard uses navigation-based subviews for **A/C, Camera, Energy,** and **Battery**. 
+* **Live Multi-View:** The right-hand panel features a 6-camera grid utilizing **WebRTC** for real-time surveillance monitoring.
+
+![Dashboard Main View](./images/theme.jpg)
+
+### ⚙️ Prerequisites for UI
+To achieve this exact look, the following must be installed:
+1.  **HACS:** Home Assistant Community Store.
+2.  **Card-mod:** Required for the theme's custom CSS and blur effects.
+3.  **Lovelace Navbar Card:** Used to match the navigation styling shown in the dashboard screenshots.
 
 ## 🚀 Future Roadmap
 * Integrate Solar PV and Wind Turbine data (Mini-grid project integration).
