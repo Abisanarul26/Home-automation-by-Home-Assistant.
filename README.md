@@ -98,11 +98,28 @@ Instead of a standard button interface, I developed a customized **Lovelace Clim
 * **State Sync:** Logic implemented to track the "assumed state" of the AC unit based on the last sent MQTT command.
 * ![AC control Dashboard](https://github.com/Abisanarul26/Home-automation-by-Home-Assistant./blob/main/images/AC.png)
 
-## 🤖 Automations & Logic
-The system is built using the standard Home Assistant Automation engine, focusing on:
-* **Triggers:** State changes from smart plugs and schedule-based events.
-* **Conditions:** Ensuring actions only occur during specific time windows or power thresholds.
-* **Actions:** Notifying or switching devices based on the logic above.
+## 🤖 4. Automations & Intelligent Logic
+
+The core of this system is a multi-tier automation engine that manages energy distribution, security data pipelines, and hardware protection.
+
+### ⚡ Energy & Load Management
+Utilizing real-time data from the **GoodWe, Deye, and Growatt inverters**, the system performs intelligent load shedding:
+* **Dynamic Thresholds:** Smart plugs (Athom Tasmota) are toggled based on battery State of Charge (SoC) and PV production.
+* **Peak Shaving:** Non-essential loads are automatically deactivated when grid usage exceeds defined amperage limits.
+
+### 📂 Security Data Pipelines (AppDaemon & Python)
+Unlike standard automations, the surveillance system uses **AppDaemon** to handle file-system-level operations:
+* **Trigger:** Completion of a 15-minute recording segment.
+* **Action:** Simultaneous local write to SSD and asynchronous upload to **Azure Blob Storage**.
+* **Retention Logic:** A Python-based cleanup script runs on a 7-day delay for local storage, ensuring the Raspberry Pi SSD never reaches capacity.
+
+### 🌡 Climate Intelligence
+* **Assumed State Logic:** Since IR is a one-way protocol, the automation engine tracks the "last sent command" via MQTT to maintain a virtual state in the dashboard.
+* **Scheduled Comfort:** Temperature set-points are adjusted based on time-of-day and room occupancy sensors.
+
+### 🛡 System Health & Monitoring
+* **Connectivity Watchdog:** Monitors the **ESPHome Bluetooth Proxy**; if the connection to the JK BMS is lost, the system sends an urgent notification to prevent battery deep-discharge.
+* **Storage Alerts:** Notifies if the Azure upload fails or if the local SSD health degrades. Notifying or switching devices based on the logic above.
 
 ## 📊 Dashboard UI
 The Lovelace dashboard is customized for quick at-a-glance monitoring:
