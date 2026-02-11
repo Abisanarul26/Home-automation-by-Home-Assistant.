@@ -51,10 +51,35 @@ To overcome the short range of the JK BMS Bluetooth module, an **ESP32** is used
 | **IoT Protocol** | MQTT / Modbus TCP |
 | **Dashboard** | Energy Dashboard (Native) |
 
-### 2. Surveillance & Security
-Configured high-definition video feeds using **Hikvision** cameras. 
-* **Protocols:** Utilized **RTSP** for low-latency streaming and **ONVIF** for PTZ/event management.
-* **Security:** Implemented specific user permissions within the Hikvision NVR/Camera settings to ensure Home Assistant has secure, restricted access.
+## 📹 2. Advanced Surveillance & Edge-to-Cloud Pipeline
+
+This section covers the implementation of a lag-free monitoring system using **EZVIZ** hardware, bypassing proprietary cloud subscriptions in favor of a custom-built local and cloud storage architecture.
+
+### 🚀 High-Performance Live Streaming
+To achieve sub-second latency for real-time monitoring:
+* **Hardware:** EZVIZ High-Definition Cameras. 
+* **Integration:** **WebRTC Camera** via HACS. 
+* **Protocol:** Optimized **RTSP** streams used to eliminate the 5-10 second delay typically found in standard cloud-based viewers, ensuring a "lag-free" dashboard experience without an EZVIZ Cloud subscription.
+
+### 💾 Automated Local Storage Logic
+Managed via Home Assistant Automations to ensure data redundancy on the **Raspberry Pi's mounted SSD**:
+* **Segmentation:** High-definition streams are captured and stored in 15-minute intervals.
+* **Organization:** A custom script distinguishes feeds from **6 individual cameras**, automatically applying standardized naming conventions: `[Camera_Name]_[YYYY-MM-DD_HH-MM]`.
+
+### ☁️ Azure Cloud Sync & AppDaemon Pipeline
+To ensure off-site data security, I implemented a Python-based synchronization pipeline using the **AppDaemon** add-on.
+* **Dual-Write Strategy:** As soon as a recording is finalized on the local SSD, the AppDaemon script triggers a background upload to an **Azure Blob Storage** container.
+* **Logic:** Written in **Python**, this handles the API handshake with Azure, ensuring the cloud copy is an exact mirror of the local repository.
+
+### 🧹 Automated Lifecycle Management (Retention Policy)
+To prevent storage overflow and manage costs, I implemented a tiered data retention policy:
+* **Local Tier (SSD):** A delayed operation within the AppDaemon Python code automatically purges files older than **7 days**.
+* **Cloud Tier (Azure):** Utilizing **Azure Lifecycle Management Policies**, the container is configured to automatically delete blobs after **30 days**, providing a rolling 1-month archive of all security footage. 
+
+| Storage Layer | Retention | Management Method |
+| :--- | :--- | :--- |
+| Local SSD | 7 Days | AppDaemon (Python) |
+| Azure Cloud | 30 Days | Container Lifecycle Management |
 
 ### 3. Climate Control
 Explored the integration of the **AirTouch 5** controller to manage ducted air conditioning systems, focusing on zone control and temperature feedback within the HA dashboard.
