@@ -39,6 +39,7 @@ To overcome the short range of the JK BMS Bluetooth module, an **ESP32** is used
 * **Feature:** `bluetooth_proxy`.
 * **Architecture:** The ESP32 is placed physically near the battery bank. It captures the BLE signal from the JK BMS and forwards it over the local Wi-Fi network to Home Assistant, effectively making the BMS "network-attached."
 
+![Battery Monitoring Dashboard](./images/Screenshot 2026-02-05 122107.png)
 
 
 ## 🛠 Technical Stack
