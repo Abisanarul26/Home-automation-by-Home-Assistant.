@@ -65,6 +65,7 @@ To achieve sub-second latency for real-time monitoring:
 Managed via Home Assistant Automations to ensure data redundancy on the **Raspberry Pi's mounted SSD**:
 * **Segmentation:** High-definition streams are captured and stored in 15-minute intervals.
 * **Organization:** A custom script distinguishes feeds from **6 individual cameras**, automatically applying standardized naming conventions: `[Camera_Name]_[YYYY-MM-DD_HH-MM]`.
+* ![Battery Monitoring Dashboard](https://github.com/Abisanarul26/Home-automation-by-Home-Assistant./blob/main/images/Screenshot%202026-02-05%20122107.png)
 
 ### ☁️ Azure Cloud Sync & AppDaemon Pipeline
 To ensure off-site data security, I implemented a Python-based synchronization pipeline using the **AppDaemon** add-on.
@@ -81,8 +82,20 @@ To prevent storage overflow and manage costs, I implemented a tiered data retent
 | Local SSD | 7 Days | AppDaemon (Python) |
 | Azure Cloud | 30 Days | Container Lifecycle Management |
 
-### 3. Climate Control
-Explored the integration of the **AirTouch 5** controller to manage ducted air conditioning systems, focusing on zone control and temperature feedback within the HA dashboard.
+## ❄️ 3. HVAC & Climate Control (IR Integration)
+
+To integrate non-smart Air Conditioning units into the ecosystem, I implemented a custom IR-to-MQTT bridge, enabling full granular control without hardware modifications.
+
+### 📡 IR Blaster Architecture
+* **Protocol:** **MQTT**. The IR blaster acts as an MQTT client, receiving payload commands from Home Assistant and translating them into specific infrared pulse sequences.
+* **Control Scope:** * **Power:** Discrete On/Off commands.
+    * **Temperature:** Precise set-point adjustments.
+    * **Mode Management:** Seamless switching between Cool, Heat, Fan, and Dry modes.
+
+### 🎨 Customized Climate Dashboard
+Instead of a standard button interface, I developed a customized **Lovelace Climate Dashboard** that provides a high-end UI experience:
+* **Real-time Feedback:** Visual indicators for current mode and target temperature.
+* **State Sync:** Logic implemented to track the "assumed state" of the AC unit based on the last sent MQTT command.
 
 ## 🤖 Automations & Logic
 The system is built using the standard Home Assistant Automation engine, focusing on:
