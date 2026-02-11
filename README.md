@@ -96,6 +96,7 @@ To integrate non-smart Air Conditioning units into the ecosystem, I implemented 
 Instead of a standard button interface, I developed a customized **Lovelace Climate Dashboard** that provides a high-end UI experience:
 * **Real-time Feedback:** Visual indicators for current mode and target temperature.
 * **State Sync:** Logic implemented to track the "assumed state" of the AC unit based on the last sent MQTT command.
+* ![AC control Dashboard](https://github.com/Abisanarul26/Home-automation-by-Home-Assistant./blob/main/images/AC.png)
 
 ## 🤖 Automations & Logic
 The system is built using the standard Home Assistant Automation engine, focusing on:
