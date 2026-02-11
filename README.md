@@ -136,13 +136,10 @@ The interface is built with a focus on high-visibility and intuitive navigation,
 
 ![Dashboard Main View](https://github.com/Abisanarul26/Home-automation-by-Home-Assistant./blob/main/images/theme.png)
 
-### ⚙️ Prerequisites for UI
-To achieve this exact look, the following must be installed:
-1.  **HACS:** Home Assistant Community Store.
-2.  **Card-mod:** Required for the theme's custom CSS and blur effects.
-3.  **Lovelace Navbar Card:** Used to match the navigation styling shown in the dashboard screenshots.
-
 ## 🚀 Future Roadmap
-* Integrate Solar PV and Wind Turbine data (Mini-grid project integration).
-* Expand Modbus communication for industrial-grade sensor data.
-* Refine automation logic for load shedding based on energy production.
+The project continues to evolve with the following planned upgrades:
+* **Mini-Grid Integration:** Full integration of **Solar PV (55kW)** and **Wind Turbine (10kW)** data for Sri Lankan microgrid standards.
+* **EV Ecosystem:** Integration of EV vehicle telemetry and smart **EV Charger** management.
+* **Advanced Sensing:** Expansion into **Zigbee** mesh networks for motion sensors and smart lighting.
+* **Smart Analytics:** Implementing AI-based **Smart Motion Detection** for security cameras and high-accuracy **Smart CT Clamps** for direct grid consumption tracking.
+* **Load Shedding:** Refining automation logic to prioritize essential loads based on real-time energy production.
