@@ -134,7 +134,7 @@ The interface is built with a focus on high-visibility and intuitive navigation,
 * **Subview Architecture:** To maintain a clean primary interface, the dashboard uses navigation-based subviews for **A/C, Camera, Energy,** and **Battery**. 
 * **Live Multi-View:** The right-hand panel features a 6-camera grid utilizing **WebRTC** for real-time surveillance monitoring.
 
-![Dashboard Main View](./images/theme.jpg)
+![Dashboard Main View]((https://github.com/Abisanarul26/Home-automation-by-Home-Assistant./blob/main/images/AC.png))
 
 ### ⚙️ Prerequisites for UI
 To achieve this exact look, the following must be installed:
