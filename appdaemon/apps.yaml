@@ -1,3 +1,4 @@
 azure_test:
   module: azure_test
   class: AzureUploader
+  azure_connection_string: "DefaultEndpointsProtocol=https;AccountName=cctvbackupstorage01;AccountKey=YOUR_SECRET_KEY_HERE;EndpointSuffix=core.windows.net"
