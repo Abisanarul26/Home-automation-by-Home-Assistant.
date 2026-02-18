@@ -58,7 +58,7 @@ This section covers the implementation of a lag-free monitoring system using **E
 ### 🚀 High-Performance Live Streaming
 To achieve sub-second latency for real-time monitoring:
 * **Hardware:** EZVIZ High-Definition Cameras. 
-* **Integration:** **WebRTC Camera** via HACS. 
+* **Integration:** **Frigate Advance Camera card** via HACS. 
 * **Protocol:** Optimized **RTSP** streams used to eliminate the 5-10 second delay typically found in standard cloud-based viewers, ensuring a "lag-free" dashboard experience without an EZVIZ Cloud subscription.
 
 ### 💾 Automated Local Storage Logic
