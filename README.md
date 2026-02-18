@@ -121,6 +121,12 @@ The interface is built with a focus on high-visibility and intuitive navigation,
 * **Subview Architecture:** To maintain a clean primary interface, the dashboard uses navigation-based subviews for **A/C, Camera, Energy,** and **Battery**. 
 * **Live Multi-View:** The right-hand panel features a 6-camera grid utilizing **WebRTC** for real-time surveillance monitoring.
 
+### 🖥️ Dedicated Hardware Interface
+* **Display Hardware:** Integrated a **Waveshare 7-inch LCD Touchscreen** connected directly to the Raspberry Pi via the DSI/HDMI interface.
+* **Kiosk Environment:** Implemented the **HAOS Kiosk Display** add-on. This allows Home Assistant to boot directly into the dashboard as a standalone hardware appliance.
+* **System Optimization:** By utilizing a dedicated kiosk environment, the system bypasses the overhead of a standard Linux desktop GUI, significantly reducing CPU and RAM usage on the Raspberry Pi.
+* **UI Refinement:** Leveraged the **Kiosk Mode** frontend integration to hide the sidebar and top header, ensuring a seamless, "app-like" experience on the 7-inch display.
+
 ![Dashboard Main View](https://github.com/Abisanarul26/Home-automation-by-Home-Assistant./blob/main/images/dashboard.png)
 
 
