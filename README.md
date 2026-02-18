@@ -1,159 +1,68 @@
-# Home Assistant Setup: Smart Power & Infrastructure
+# 🏠 Home Assistant: Integrated Energy & Security Ecosystem
 
-This repository documents my home automation journey using **Home Assistant** hosted on a **Raspberry Pi**. The focus of this project is to integrate local control for power monitoring, security, smart devices and climate systems while maintaining high reliability and data privacy.
+This repository documents an advanced home automation ecosystem hosted on a **Raspberry Pi**. The project features a multi-inverter solar management system, a custom Python-based security pipeline with Azure cloud synchronization, and AI-powered threat detection.
 
-## 🛠 Hardware Profile
-* **Controller:** Raspberry Pi
-* **Protocol Focus:** MQTT (via Tasmota), OCPP, RTSP/ONVIF, and IP-based API integrations.
+---
 
-## ⚡ Integrated Systems
+## 🏗️ System Architecture
 
-## 📊 1. Solar Inverter Tier (Core Energy Flow)
-The system monitors total production, grid export/import, and battery state of charge (SoC) through a multi-inverter setup.
+### 1. Energy Management Tier (Solar & Storage)
+The system operates as a professional-grade Energy Management System (EMS), monitoring complex power flows and battery health.
 
-### Supported Inverters & Integrations
-* **GoodWe:** Uses the **Core GoodWe Integration**. It polls data locally via UDP (Port 8899).
-* **Deye:** Integrated via the **Solarman (HACS)** or **Modbus TCP** integration for real-time register access.
-* **Growatt:** Connects via the **Growatt Server** integration (Cloud/API) or **Grott (MQTT)** for local data interception.
+* **Inverter Integration:** Simultaneous local and cloud monitoring of **GoodWe** (UDP), **Deye** (Modbus TCP), and **Growatt** (MQTT via Grott).
+* **Battery Analytics (JK BMS):** Detailed 32-cell monitoring via **Batmon (MQTT)** and BLE.
+* **Range Extension:** Deployed an **ESP32** using **ESPHome Bluetooth Proxy** to bridge the BMS signal to the Raspberry Pi over Wi-Fi. [View Config](./esphome/jk-bms-proxy.yaml)
+* **Appliance Tracking:** High-precision **Athom Tasmota** smart plugs monitoring Power, Voltage, and Current via MQTT.
 
-### Key Monitoring Metrics
-* **Grid Usage:** Real-time import/export tracking via inverter CT clamps.
-* **Battery Analytics:** Charge/Discharge rates and SoC directly from the hybrid inverter bus.
+### 2. Intelligent Security & AI Surveillance
+A tiered security architecture that combines local AI processing with off-site cloud redundancy.
 
-## 🔌 2. Device Tier (Appliance Monitoring)
-Individual appliance tracking is handled by high-precision smart plugs to identify "energy vampires" and automate load shedding.
-* **Hardware:** Athom Tasmota Smart Plugs.
-* **Integration:** **MQTT** (Mosquitto Broker).
-* **Data Points:** Power (W), Voltage (V), Current (A), and Daily Energy (kWh).
+* **AI Detection (Frigate NVR):** Local AI human detection using Frigate to eliminate false motion alerts.
+* **Real-time Streams:** Zero-latency monitoring via **WebRTC** and optimized **RTSP** streams for EZVIZ hardware.
+* **Storage Pipeline (AppDaemon):** A custom Python-based "Store-and-Forward" system. [View Script](./appdaemon/azure_test.py)
+    * **Local Tier:** 15-minute segments saved to a local SSD with a **7-day rolling retention policy**.
+    * **Cloud Tier:** Synchronized mirroring to **Azure Blob Storage** with a **30-day lifecycle policy**.
+* **Smart Notifications:** Critical alerts with person-thumbnails sent via the Home Assistant Companion App upon verified human detection.
 
-## 🔋 3. Battery Management Tier (BMS & Connectivity)
-Advanced battery health monitoring for DIY or custom lithium banks.
+### 3. Climate & Infrastructure Control
+* **HVAC Bridge:** Non-smart AC units are integrated via an **IR-to-MQTT bridge**, providing full control over modes, temperature, and power.
+* **Assumed State Logic:** Custom automation logic tracks the one-way IR commands to maintain a virtual state of the AC unit on the dashboard.
 
-### JK BMS Integration
-* **Primary Integration:** **Batmon (via MQTT)**. This allows for detailed cell-level monitoring (32 cells), balancing status, and temperature alerts.
-* **Connection Method:** Bluetooth Low Energy (BLE).
+---
 
-### Bluetooth Range Extension (ESP32 Proxy)
-To overcome the short range of the JK BMS Bluetooth module, an **ESP32** is used as a transparent bridge.
-* **Software:** **ESPHome**.
-* **Feature:** `bluetooth_proxy`.
-* **Architecture:** The ESP32 is placed physically near the battery bank. It captures the BLE signal from the JK BMS and forwards it over the local Wi-Fi network to Home Assistant, effectively making the BMS "network-attached."
+## 🎨 User Experience & Dashboard
+The UI follows a **Glassmorphism** aesthetic, optimized for high-performance navigation on low-power tablets or mobile devices.
 
-![Battery Monitoring Dashboard](https://github.com/Abisanarul26/Home-automation-by-Home-Assistant./blob/main/images/Screenshot%202026-02-05%20122107.png)
+* **Design:** Customized **Frosted Glass Lite** theme (by wessamlauf) using CSS-blur and translucent layers.
+* **Navigation:** A **Subview Architecture** keeps the main interface clean, with dedicated deep-dive pages for A/C, Camera, Energy, and Battery systems.
+* **Command Center:** A 6-camera live grid provides instant perimeter awareness.
 
+![Dashboard View](https://github.com/Abisanarul26/Home-automation-by-Home-Assistant./blob/main/images/dashboard.png)
 
-## 🛠 Technical Stack
-| Layer | Technology |
+---
+
+## 🤖 Automations & Logical Layers
+| Category | Logic Description |
 | :--- | :--- |
-| **OS** | Home Assistant OS (Raspberry Pi) |
-| **BMS Communication** | Batmon + BLE |
-| **Range Extension** | ESPHome Bluetooth Proxy |
-| **IoT Protocol** | MQTT / Modbus TCP |
-| **Dashboard** | Energy Dashboard (Native) |
+| **Load Shedding** | Toggling smart plugs based on Inverter SoC and PV production thresholds. |
+| **Peak Shaving** | Automatic deactivation of non-essential loads when grid usage exceeds limits. |
+| **Watchdog** | Monitoring ESPHome Proxy connectivity to prevent battery deep-discharge. |
+| **Data Cleanup** | Scheduled Python tasks at 2:00 AM to purge local recordings older than 7 days. |
 
-## 📹 2. Advanced Surveillance & Edge-to-Cloud Pipeline
+---
 
-This section covers the implementation of a lag-free monitoring system using **EZVIZ** hardware, bypassing proprietary cloud subscriptions in favor of a custom-built local and cloud storage architecture.
+## 🛠️ Technical Stack
+* **OS:** Home Assistant OS (Raspberry Pi)
+* **Languages:** YAML (Automations), Python (AppDaemon)
+* **Protocols:** MQTT, Modbus TCP, RTSP, ONVIF, BLE, OCPP
+* **Integrations:** HACS, WebRTC, ESPHome, Frigate, Solarman, Batmon
 
-### 🚀 High-Performance Live Streaming
-To achieve sub-second latency for real-time monitoring:
-* **Hardware:** EZVIZ High-Definition Cameras. 
-* **Integration:** **WebRTC Camera** via HACS. 
-* **Protocol:** Optimized **RTSP** streams used to eliminate the 5-10 second delay typically found in standard cloud-based viewers, ensuring a "lag-free" dashboard experience without an EZVIZ Cloud subscription.
-
-### 💾 Automated Local Storage Logic
-Managed via Home Assistant Automations to ensure data redundancy on the **Raspberry Pi's mounted SSD**:
-* **Segmentation:** High-definition streams are captured and stored in 15-minute intervals.
-* **Organization:** A custom script distinguishes feeds from **6 individual cameras**, automatically applying standardized naming conventions: `[Camera_Name]_[YYYY-MM-DD_HH-MM]`.
-* ![CCTV Backup automation control dashboard](https://github.com/Abisanarul26/Home-automation-by-Home-Assistant./blob/main/images/Backup.png)
-
-### ☁️ Azure Cloud Sync & AppDaemon Pipeline
-To ensure off-site data security, I implemented a Python-based synchronization pipeline using the **AppDaemon** add-on.
-* **Dual-Write Strategy:** As soon as a recording is finalized on the local SSD, the AppDaemon script triggers a background upload to an **Azure Blob Storage** container.
-* **Logic:** Written in **Python**, this handles the API handshake with Azure, ensuring the cloud copy is an exact mirror of the local repository.
-
-### 🧹 Automated Lifecycle Management (Retention Policy)
-To prevent storage overflow and manage costs, I implemented a tiered data retention policy:
-* **Local Tier (SSD):** A delayed operation within the AppDaemon Python code automatically purges files older than **7 days**.
-* **Cloud Tier (Azure):** Utilizing **Azure Lifecycle Management Policies**, the container is configured to automatically delete blobs after **30 days**, providing a rolling 1-month archive of all security footage. 
-
-| Storage Layer | Retention | Management Method |
-| :--- | :--- | :--- |
-| Local SSD | 7 Days | AppDaemon (Python) |
-| Azure Cloud | 30 Days | Container Lifecycle Management |
-
-## ❄️ 3. HVAC & Climate Control (IR Integration)
-
-To integrate non-smart Air Conditioning units into the ecosystem, I implemented a custom IR-to-MQTT bridge, enabling full granular control without hardware modifications.
-
-### 📡 IR Blaster Architecture
-* **Protocol:** **MQTT**. The IR blaster acts as an MQTT client, receiving payload commands from Home Assistant and translating them into specific infrared pulse sequences.
-* **Control Scope:** * **Power:** Discrete On/Off commands.
-    * **Temperature:** Precise set-point adjustments.
-    * **Mode Management:** Seamless switching between Cool, Heat, Fan, and Dry modes.
-
-### 🎨 Customized Climate Dashboard
-Instead of a standard button interface, I developed a customized **Lovelace Climate Dashboard** that provides a high-end UI experience:
-* **Real-time Feedback:** Visual indicators for current mode and target temperature.
-* **State Sync:** Logic implemented to track the "assumed state" of the AC unit based on the last sent MQTT command.
-* ![AC control Dashboard](https://github.com/Abisanarul26/Home-automation-by-Home-Assistant./blob/main/images/AC.png)
-
-## 🤖 4. Automations & Intelligent Logic
-
-The core of this system is a multi-tier automation engine that manages energy distribution, security data pipelines, and hardware protection.
-
-### ⚡ Energy & Load Management
-Utilizing real-time data from the **GoodWe, Deye, and Growatt inverters**, the system performs intelligent load shedding:
-* **Dynamic Thresholds:** Smart plugs (Athom Tasmota) are toggled based on battery State of Charge (SoC) and PV production.
-* **Peak Shaving:** Non-essential loads are automatically deactivated when grid usage exceeds defined amperage limits.
-
-### 📂 Security Data Pipelines (AppDaemon & Python)
-Unlike standard automations, the surveillance system uses **AppDaemon** to handle file-system-level operations:
-* **Trigger:** Completion of a 15-minute recording segment.
-* **Action:** Simultaneous local write to SSD and asynchronous upload to **Azure Blob Storage**.
-* **Retention Logic:** A Python-based cleanup script runs on a 7-day delay for local storage, ensuring the Raspberry Pi SSD never reaches capacity.
-
-### 🌡 Climate Intelligence
-* **Assumed State Logic:** Since IR is a one-way protocol, the automation engine tracks the "last sent command" via MQTT to maintain a virtual state in the dashboard.
-* **Scheduled Comfort:** Temperature set-points are adjusted based on time-of-day and room occupancy sensors.
-
-### 🛡 System Health & Monitoring
-* **Connectivity Watchdog:** Monitors the **ESPHome Bluetooth Proxy**; if the connection to the JK BMS is lost, the system sends an urgent notification to prevent battery deep-discharge.
-* **Storage Alerts:** Notifies if the Azure upload fails or if the local SSD health degrades. Notifying or switching devices based on the logic above.
-
-## 🎨 5. Dashboard UI & User Experience
-
-The interface is built with a focus on high-visibility and intuitive navigation, utilizing a modern **Glassmorphism** aesthetic to provide a clean, professional "Command Center" feel.
-
-### 🖼️ Design Philosophy
-* **Core Theme:** The visual foundation is built on the [Frosted Glass Theme by wessamlauf](https://github.com/wessamlauf/homeassistant-frosted-glass-themes). This theme brings depth through transparent, blurred card elements and a cohesive color palette.
-* **Editions Used:** I utilize the **Lite Edition** for high-performance navigation on the Raspberry Pi, which maintains the glassy look without the heavy processing load of backdrop filters.
-* **Customization:** Leveraging the **Frosted Glass Theme Manager**, I have customized the primary colors and backgrounds to match a "Frosted Glass Lite" profile, ensuring comfortable usability and visual appeal.
-
-### 🕹️ Multi-Stream Surveillance & Navigation
-* **Subview Architecture:** To maintain a clean primary interface, the dashboard uses navigation-based subviews for **A/C, Camera, Energy,** and **Battery**. 
-* **Live Multi-View:** The right-hand panel features a 6-camera grid utilizing **WebRTC** for real-time surveillance monitoring.
-
-![Dashboard Main View](https://github.com/Abisanarul26/Home-automation-by-Home-Assistant./blob/main/images/dashboard.png)
-
-### 🔧 ESP32 Bluetooth Proxy Implementation
-To maintain a stable connection between the Raspberry Pi and the battery bank, an ESP32 is deployed as a BLE-to-WiFi bridge.
-
-* **Configuration:** [View jk-bms-proxy.yaml](./esphome/jk-bms-proxy.yaml)
-* **Function:** Tracks 24-32 individual cell voltages, balancing status, and temperatures.
-* **Optimization:** Includes an automation to suspend BLE tracking during OTA updates to prevent flash memory corruption.
-
-### 🐍 Automated Data Lifecycle (Python/AppDaemon)
-The security pipeline uses a custom AppDaemon script to manage two separate storage lifecycles simultaneously:
-
-* **Configuration:** [View azure_test.py](./appdaemon/azure_test.py)
-1.  **Instantaneous Cloud Mirroring:** Every 15-minute recording trigger initiates an immediate upload to **Azure Blob Storage**.
-2.  **7-Day Local Retention:** A daily Python maintenance task scans the Raspberry Pi SSD at 2:00 AM and purges any recordings older than 7 days to maintain disk health. ```
+---
 
 ## 🚀 Future Roadmap
-The project continues to evolve with the following planned upgrades:
-* **Mini-Grid Integration:** Full integration of **Solar PV (55kW)** and **Wind Turbine (10kW)** data for Sri Lankan microgrid standards.
-* **EV Ecosystem:** Integration of EV vehicle telemetry and smart **EV Charger** management.
-* **Advanced Sensing:** Expansion into **Zigbee** mesh networks for motion sensors and smart lighting.
-* **Smart Analytics:** Implementing AI-based **Smart Motion Detection** for security cameras and high-accuracy **Smart CT Clamps** for direct grid consumption tracking.
-* **Load Shedding:** Refining automation logic to prioritize essential loads based on real-time energy production.
+* **Mini-Grid Project:** Integration of 55kW Solar and 10kW Wind data following Sri Lankan microgrid standards.
+* **EV Ecosystem:** Integration of EV vehicle telemetry and smart **OCPP EV Charger** management.
+* **Zigbee Expansion:** Deploying a Zigbee mesh for environment sensors and lighting.
+* **Smart CT Clamps:** Direct grid consumption tracking for higher accuracy.
+
+---
