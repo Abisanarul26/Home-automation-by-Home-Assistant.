@@ -51,7 +51,7 @@ To overcome the short range of the JK BMS Bluetooth module, an **ESP32** is used
 | **IoT Protocol** | MQTT / Modbus TCP |
 | **Dashboard** | Energy Dashboard (Native) |
 
-## 📹 2. Advanced Surveillance & Edge-to-Cloud Pipeline
+## 📹 4. Advanced Surveillance & Edge-to-Cloud Pipeline
 
 This section covers the implementation of a lag-free monitoring system using **EZVIZ** hardware, bypassing proprietary cloud subscriptions in favor of a custom-built local and cloud storage architecture.
 
@@ -82,15 +82,24 @@ To prevent storage overflow and manage costs, I implemented a tiered data retent
 | Local SSD | 7 Days | AppDaemon (Python) |
 | Azure Cloud | 30 Days | Container Lifecycle Management |
 
-## ❄️ 3. HVAC & Climate Control (IR Integration)
+## 🕵️‍♂️ AI-Powered Object Detection (Frigate NVR)
+
+To reduce "noise" from motion alerts (wind, light changes, animals), I integrated **Frigate NVR** to handle sophisticated local AI object detection.
+
+### 🧠 Human Detection & Real-Time Intelligence
+* **Detection Engine:** Leveraged Frigate's real-time AI processing to distinguish humans from other moving objects. 
+* **Edge Processing:** The system performs all AI inference locally on the Raspberry Pi, ensuring zero reliance on external cloud AI services for privacy and speed.
+* **Notification Engine:** Configured an automation pipeline that sends high-priority **Mobile Notifications** (via the Home Assistant Companion App) only when a human is identified within specific zones.
+
+### 📲 Smart Alert Automation
+Instead of constant motion alerts, the system utilizes the following logic:
+1. **Frigate** identifies a person in the camera feed.
+2. A **MQTT** message is sent to Home Assistant with the detection confidence score.
+3. Home Assistant triggers a mobile notification including a **snapshot** of the person and a direct link to the live stream.
+
+## ❄️ 5. HVAC & Climate Control (IR Integration)
 
 To integrate non-smart Air Conditioning units into the ecosystem, I implemented a custom IR-to-MQTT bridge, enabling full granular control without hardware modifications.
-
-### 📡 IR Blaster Architecture
-* **Protocol:** **MQTT**. The IR blaster acts as an MQTT client, receiving payload commands from Home Assistant and translating them into specific infrared pulse sequences.
-* **Control Scope:** * **Power:** Discrete On/Off commands.
-    * **Temperature:** Precise set-point adjustments.
-    * **Mode Management:** Seamless switching between Cool, Heat, Fan, and Dry modes.
 
 ### 🎨 Customized Climate Dashboard
 Instead of a standard button interface, I developed a customized **Lovelace Climate Dashboard** that provides a high-end UI experience:
@@ -98,30 +107,8 @@ Instead of a standard button interface, I developed a customized **Lovelace Clim
 * **State Sync:** Logic implemented to track the "assumed state" of the AC unit based on the last sent MQTT command.
 * ![AC control Dashboard](https://github.com/Abisanarul26/Home-automation-by-Home-Assistant./blob/main/images/AC.png)
 
-## 🤖 4. Automations & Intelligent Logic
 
-The core of this system is a multi-tier automation engine that manages energy distribution, security data pipelines, and hardware protection.
-
-### ⚡ Energy & Load Management
-Utilizing real-time data from the **GoodWe, Deye, and Growatt inverters**, the system performs intelligent load shedding:
-* **Dynamic Thresholds:** Smart plugs (Athom Tasmota) are toggled based on battery State of Charge (SoC) and PV production.
-* **Peak Shaving:** Non-essential loads are automatically deactivated when grid usage exceeds defined amperage limits.
-
-### 📂 Security Data Pipelines (AppDaemon & Python)
-Unlike standard automations, the surveillance system uses **AppDaemon** to handle file-system-level operations:
-* **Trigger:** Completion of a 15-minute recording segment.
-* **Action:** Simultaneous local write to SSD and asynchronous upload to **Azure Blob Storage**.
-* **Retention Logic:** A Python-based cleanup script runs on a 7-day delay for local storage, ensuring the Raspberry Pi SSD never reaches capacity.
-
-### 🌡 Climate Intelligence
-* **Assumed State Logic:** Since IR is a one-way protocol, the automation engine tracks the "last sent command" via MQTT to maintain a virtual state in the dashboard.
-* **Scheduled Comfort:** Temperature set-points are adjusted based on time-of-day and room occupancy sensors.
-
-### 🛡 System Health & Monitoring
-* **Connectivity Watchdog:** Monitors the **ESPHome Bluetooth Proxy**; if the connection to the JK BMS is lost, the system sends an urgent notification to prevent battery deep-discharge.
-* **Storage Alerts:** Notifies if the Azure upload fails or if the local SSD health degrades. Notifying or switching devices based on the logic above.
-
-## 🎨 5. Dashboard UI & User Experience
+## 🎨 6. Dashboard UI & User Experience
 
 The interface is built with a focus on high-visibility and intuitive navigation, utilizing a modern **Glassmorphism** aesthetic to provide a clean, professional "Command Center" feel.
 
@@ -136,19 +123,6 @@ The interface is built with a focus on high-visibility and intuitive navigation,
 
 ![Dashboard Main View](https://github.com/Abisanarul26/Home-automation-by-Home-Assistant./blob/main/images/dashboard.png)
 
-### 🔧 ESP32 Bluetooth Proxy Implementation
-To maintain a stable connection between the Raspberry Pi and the battery bank, an ESP32 is deployed as a BLE-to-WiFi bridge.
-
-* **Configuration:** [View jk-bms-proxy.yaml](./esphome/jk-bms-proxy.yaml)
-* **Function:** Tracks 24-32 individual cell voltages, balancing status, and temperatures.
-* **Optimization:** Includes an automation to suspend BLE tracking during OTA updates to prevent flash memory corruption.
-
-### 🐍 Automated Data Lifecycle (Python/AppDaemon)
-The security pipeline uses a custom AppDaemon script to manage two separate storage lifecycles simultaneously:
-
-* **Configuration:** [View azure_test.py](./appdaemon/azure_test.py)
-1.  **Instantaneous Cloud Mirroring:** Every 15-minute recording trigger initiates an immediate upload to **Azure Blob Storage**.
-2.  **7-Day Local Retention:** A daily Python maintenance task scans the Raspberry Pi SSD at 2:00 AM and purges any recordings older than 7 days to maintain disk health. ```
 
 ## 🚀 Future Roadmap
 The project continues to evolve with the following planned upgrades:
