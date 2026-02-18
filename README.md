@@ -132,7 +132,6 @@ The interface is built with a focus on high-visibility and intuitive navigation,
 
 ## 🚀 Future Roadmap
 The project continues to evolve with the following planned upgrades:
-* **Mini-Grid Integration:** Full integration of **Solar PV (55kW)** and **Wind Turbine (10kW)** data for Sri Lankan microgrid standards.
 * **EV Ecosystem:** Integration of EV vehicle telemetry and smart **EV Charger** management.
 * **Advanced Sensing:** Expansion into **Zigbee** mesh networks for motion sensors and smart lighting.
 * **Smart Analytics:** Implementing AI-based **Smart Motion Detection** for security cameras and high-accuracy **Smart CT Clamps** for direct grid consumption tracking.
