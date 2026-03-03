@@ -97,7 +97,9 @@ Instead of constant motion alerts, the system utilizes the following logic:
 2. A **MQTT** message is sent to Home Assistant with the detection confidence score.
 3. Home Assistant triggers a mobile notification including a **snapshot** of the person and a direct link to the live stream.
 
-![Human detection notification allert](img src="https://github.com/Abisanarul26/Home-automation-by-Home-Assistant./blob/main/images/hd_allert.jpg" width="300" height="200")
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Abisanarul26/Home-automation-by-Home-Assistant/main/images/hd_allert.jpg" width="300">
+</p>
 
 ## ❄️ 5. HVAC & Climate Control (IR Integration)
 
