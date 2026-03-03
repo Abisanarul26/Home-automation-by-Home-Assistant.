@@ -98,7 +98,7 @@ Instead of constant motion alerts, the system utilizes the following logic:
 3. Home Assistant triggers a mobile notification including a **snapshot** of the person and a direct link to the live stream.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Abisanarul26/Home-automation-by-Home-Assistant/main/images/hd_allert.jpg" width="300">
+  <img src="images/hd_allert.jpg" width="300">
 </p>
 
 ## ❄️ 5. HVAC & Climate Control (IR Integration)
