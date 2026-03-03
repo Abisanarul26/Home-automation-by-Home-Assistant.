@@ -13,7 +13,7 @@ The system monitors total production, grid export/import, and battery state of c
 
 ### Supported Inverters & Integrations
 * **GoodWe:** Uses the **Core GoodWe Integration**. It polls data locally via UDP (Port 8899).
-* **Deye:** Integrated via the **Solarman (HACS)** or **Modbus TCP** integration for real-time register access.
+* **Deye:** Integrated via the **Solarman (HACS)**.
 * **Growatt:** Connects via the **Growatt Server** integration (Cloud/API) or **Grott (MQTT)** for local data interception.
 
 ### Key Monitoring Metrics
