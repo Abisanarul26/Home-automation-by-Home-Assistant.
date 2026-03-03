@@ -97,6 +97,8 @@ Instead of constant motion alerts, the system utilizes the following logic:
 2. A **MQTT** message is sent to Home Assistant with the detection confidence score.
 3. Home Assistant triggers a mobile notification including a **snapshot** of the person and a direct link to the live stream.
 
+![Battery Monitoring Dashboard](https://github.com/Abisanarul26/Home-automation-by-Home-Assistant./blob/main/images/hd_allert.png)
+
 ## ❄️ 5. HVAC & Climate Control (IR Integration)
 
 To integrate non-smart Air Conditioning units into the ecosystem, I implemented a custom IR-to-MQTT bridge, enabling full granular control without hardware modifications.
