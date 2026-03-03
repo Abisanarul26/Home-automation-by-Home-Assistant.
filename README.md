@@ -64,7 +64,7 @@ To achieve sub-second latency for real-time monitoring:
 ### 💾 Automated Local Storage Logic
 Managed via Home Assistant Automations to ensure data redundancy on the **Raspberry Pi's mounted SSD**:
 * **Segmentation:** High-definition streams are captured and stored in 15-minute intervals.
-* **Organization:** A custom script distinguishes feeds from **6 individual cameras**, automatically applying standardized naming conventions: `[Camera_Name]_[YYYY-MM-DD_HH-MM]`.
+* **Organization:** A custom script distinguishes feeds from **8 individual cameras**, automatically applying standardized naming conventions: `[Camera_Name]_[YYYY-MM-DD_HH-MM]`.
 * ![CCTV Backup automation control dashboard](https://github.com/Abisanarul26/Home-automation-by-Home-Assistant./blob/main/images/Backup.png)
 
 ### ☁️ Azure Cloud Sync & AppDaemon Pipeline
