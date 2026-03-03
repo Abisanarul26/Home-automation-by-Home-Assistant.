@@ -17,7 +17,7 @@ The system monitors total production, grid export/import, and battery state of c
 * **Growatt:** Connects via the **Growatt Server** integration (Cloud/API) or **Grott (MQTT)** for local data interception.
 
 ### Key Monitoring Metrics
-* **Grid Usage:** Real-time import/export tracking via inverter CT clamps.
+* **Grid Usage:** Real-time import/export tracking via inverter.
 * **Battery Analytics:** Charge/Discharge rates and SoC directly from the hybrid inverter bus.
 
 ## 🔌 2. Device Tier (Appliance Monitoring)
